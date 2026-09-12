@@ -1,0 +1,3 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { AuthPage } from "./login";
+export const Route=createFileRoute("/signup")({head:()=>({meta:[{title:"Create account — LAX"},{name:"description",content:"Create a LAX design-to-code workspace."},{property:"og:title",content:"Create account — LAX"},{property:"og:description",content:"Start converting screenshots and Figma designs into code."},{property:"og:type",content:"website"},{name:"twitter:card",content:"summary_large_image"}]}),component:()=> <AuthPage mode="signup"/>});

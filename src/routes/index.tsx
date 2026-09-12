@@ -1,24 +1,33 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight, Check, Code2, Figma, Layers3, ScanLine, Sparkles, WandSparkles } from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import figmaCanvas from "@/assets/lax-figma-canvas.jpg";
+import { MarketingFooter, MarketingHeader } from "@/components/lax/marketing";
+import { Button } from "@/components/ui/button";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({ meta: [{ title: "LAX — Screenshot & Figma to Code" }, { name: "description", content: "Convert screenshots and Figma designs into production-ready HTML and CSS with LAX." }, { property: "og:title", content: "LAX — Screenshot & Figma to Code" }, { property: "og:description", content: "Convert screenshots and Figma designs into production-ready HTML and CSS." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] }),
+  component: LandingPage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+const steps = [{ n: "01", title: "Drop a frame", text: "Upload a screenshot or paste a Figma link. LAX maps every visible layer." }, { n: "02", title: "Tune the output", text: "Choose breakpoints, inspect tokens, and compare the responsive preview." }, { n: "03", title: "Ship clean code", text: "Copy semantic HTML and CSS or download the complete asset bundle." }];
+const features = [{ icon: ScanLine, title: "Visual parsing", text: "Understands hierarchy, layout, spacing, type, and visual rhythm." }, { icon: Code2, title: "Clean output", text: "Readable semantic HTML and maintainable CSS without framework lock-in." }, { icon: Layers3, title: "Asset handling", text: "Identifies images, icons, and reusable visual elements automatically." }, { icon: Sparkles, title: "Responsive inference", text: "Builds practical desktop, tablet, and mobile behavior from one source." }];
+
+function LandingPage() {
+  return <div className="page-glow min-h-screen overflow-hidden"><MarketingHeader /><main>
+    <section className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-[1.02fr_.98fr]">
+      <div><div className="inline-flex items-center gap-2 rounded-full border border-glass-border bg-glass px-4 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-xl"><i className="size-1.5 rounded-full bg-primary"/>Screenshot & Figma to production-ready code</div><h1 className="mt-7 max-w-2xl font-display text-5xl font-semibold leading-[1.03] sm:text-7xl">From pixel <span className="text-primary">to responsive</span> ship-ready markup.</h1><p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">Paste a screenshot or link a Figma frame. LAX returns clean, responsive HTML and CSS your team can actually ship.</p><div className="mt-8 flex flex-wrap gap-3"><Button asChild variant="hero" size="lg"><Link to="/workspace/new">Generate code <ArrowRight /></Link></Button><Button asChild variant="glass" size="lg"><a href="#demo">Watch the demo</a></Button></div><div className="mt-8 flex flex-wrap gap-5 text-xs font-medium text-muted-foreground"><span>Responsive by default</span><span>Frame-perfect layout</span><span>Token-ready output</span></div></div>
+      <DemoWindow />
+    </section>
+    <section id="demo" className="mx-auto max-w-7xl px-6 py-24"><div className="mb-10 max-w-2xl"><p className="eyebrow">Live workflow</p><h2 className="mt-3 font-display text-3xl font-semibold sm:text-5xl">Inspect the source. Own the output.</h2></div><DemoWindow large /></section>
+    <section className="mx-auto max-w-7xl px-6 py-24"><p className="eyebrow">How it works</p><div className="mt-4 flex items-end justify-between"><h2 className="font-display text-3xl font-semibold sm:text-5xl">Three steps to production.</h2><span className="hidden text-sm text-muted-foreground sm:block">01 — 03</span></div><div className="mt-10 grid gap-5 md:grid-cols-3">{steps.map((s) => <article key={s.n} className="glass-panel rounded-xl p-6"><span className="font-mono text-xs font-semibold text-primary">{s.n}</span><h3 className="mt-5 font-display text-xl font-semibold">{s.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.text}</p></article>)}</div></section>
+    <section className="border-y border-border bg-deep/30"><div className="mx-auto max-w-7xl px-6 py-24"><p className="eyebrow">Built for fidelity</p><h2 className="mt-3 max-w-2xl font-display text-3xl font-semibold sm:text-5xl">A production tool, not a code toy.</h2><div className="mt-10 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2">{features.map(({ icon: Icon, title, text }) => <article key={title} className="bg-background p-7"><Icon className="size-5 text-primary"/><h3 className="mt-8 font-display text-xl font-semibold">{title}</h3><p className="mt-2 max-w-md text-sm leading-relaxed text-muted-foreground">{text}</p></article>)}</div></div></section>
+    <section className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-2"><div><div className="flex size-11 items-center justify-center rounded-xl bg-primary/15 text-primary"><Figma /></div><p className="eyebrow mt-6">Figma integration</p><h2 className="mt-3 font-display text-3xl font-semibold sm:text-5xl">Paste a frame. Preserve the system.</h2><p className="mt-5 max-w-xl text-muted-foreground">LAX reads auto layout, reusable styles, type scales, and component boundaries directly from your shared Figma frame.</p><Button asChild variant="glass" className="mt-7"><Link to="/workspace/new">Connect a Figma frame <ArrowRight /></Link></Button></div><img src={figmaCanvas} alt="Figma design frame selected with layout measurements" loading="lazy" width={1024} height={512} className="rounded-xl border border-glass-border shadow-[var(--shadow-glass)]" /></section>
+    <section className="mx-auto max-w-7xl px-6 py-24"><div className="glass-panel grid gap-8 rounded-2xl p-8 sm:p-12 lg:grid-cols-[1fr_auto] lg:items-center"><div><p className="eyebrow">Simple pricing</p><h2 className="mt-3 font-display text-3xl font-semibold">Start free. Upgrade when you ship.</h2><p className="mt-3 text-muted-foreground">10 conversions each month, then Pro is $24 per month.</p></div><Button asChild variant="hero" size="lg"><Link to="/pricing">Compare plans <ArrowRight /></Link></Button></div></section>
+    <section id="faq" className="mx-auto max-w-3xl px-6 py-24"><p className="eyebrow">FAQ</p><h2 className="mt-3 font-display text-3xl font-semibold sm:text-5xl">Questions, answered.</h2><div className="mt-10 divide-y divide-border">{[["What code does LAX generate?","Semantic HTML and modern CSS designed to be readable, editable, and framework-independent."],["Can I use Figma links?","Yes. Paste a shareable frame URL or upload a screenshot directly."],["Does this replace frontend developers?","No. LAX removes repetitive recreation work so developers can focus on behavior, quality, and product decisions."],["Is the generator live yet?","This preview demonstrates the complete frontend workflow. AI generation is intentionally not connected yet."]].map(([q,a]) => <details key={q} className="group py-5"><summary className="cursor-pointer list-none font-display text-lg font-semibold">{q}<span className="float-right text-primary">+</span></summary><p className="mt-3 pr-10 text-sm leading-relaxed text-muted-foreground">{a}</p></details>)}</div></section>
+  </main><MarketingFooter /></div>;
+}
+
+function DemoWindow({ large = false }: { large?: boolean }) {
+  return <div className={`relative rounded-2xl border border-glass-border bg-glass p-3 shadow-[var(--shadow-glass)] backdrop-blur-2xl ${large ? "mx-auto max-w-5xl" : ""}`}><div className="flex items-center gap-1.5 px-2 py-2"><i className="size-2 rounded-full bg-muted-foreground/30"/><i className="size-2 rounded-full bg-muted-foreground/30"/><i className="size-2 rounded-full bg-primary"/><span className="ml-3 font-mono text-[10px] text-muted-foreground">lax / output</span></div><div className="grid gap-3 md:grid-cols-2"><div className="overflow-hidden rounded-xl border border-glass-border bg-glass-strong p-3"><img src={figmaCanvas} alt="Selected design frame source" width={1024} height={512} className="aspect-[16/10] w-full rounded-lg object-cover" /></div><div className="rounded-xl bg-code p-4 text-code-foreground"><div className="mb-3 flex items-center justify-between text-[10px] uppercase"><span className="text-primary">Generated</span><span className="text-muted-foreground">index.html</span></div><pre className="overflow-hidden font-mono text-xs leading-6"><code>{`<section class="hero">\n  <h1>Ship in hours</h1>\n  <div class="grid">\n    <Card responsive />\n  </div>\n</section>`}</code></pre><div className="mt-5 flex items-center gap-2 text-xs text-primary"><Check className="size-3.5"/> Responsive constraints resolved</div></div></div></div>;
 }

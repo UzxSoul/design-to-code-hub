@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         <nav className="mt-7 space-y-1" aria-label="Workspace navigation">
           {items.map(({ to, label, icon: Icon }) => <Link key={to} to={to} className={cn("flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-foreground", path.startsWith(to) && "bg-accent text-foreground")}><Icon className="size-4" />{label}</Link>)}
         </nav>
-        <div className="mt-auto rounded-xl border border-glass-border bg-glass p-3 shadow-[var(--shadow-glass)]"><p className="text-xs text-muted-foreground">Workspace</p><p className="mt-1 truncate text-sm font-medium">Alex’s studio</p><button className="mt-3 flex items-center gap-2 text-xs text-muted-foreground"><LogOut className="size-3.5" /> Sign out</button></div>
+        <div className="mt-auto rounded-xl border border-glass-border bg-glass p-3 shadow-[var(--shadow-glass)]"><p className="text-xs text-muted-foreground">Workspace</p><p className="mt-1 truncate text-sm font-medium">Alex’s studio</p><Button variant="ghost" size="sm" className="mt-2"><LogOut className="size-3.5" /> Sign out</Button></div>
       </aside>
       <div className="lg:pl-64">
         <header className="sticky top-0 z-20 grid h-16 grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border bg-background/75 px-5 backdrop-blur-xl sm:px-8">

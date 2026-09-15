@@ -4,4 +4,4 @@
 - [x] Landing, pricing, login, and signup
 - [x] Dashboard, projects, project details, settings, and admin
 - [x] Conversion workspace interactions
-- [ ] Responsive preview verification
+- [x] Responsive preview verification

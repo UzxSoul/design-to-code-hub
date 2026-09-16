@@ -55,16 +55,25 @@ const styleSchema = z
 
 export type DesignNode = {
   type: string;
-  role?: string;
+  role?: string | undefined;
   className: string;
-  text?: string;
-  tag?: string;
-  layout?: z.infer<typeof layoutSchema>;
-  style?: z.infer<typeof styleSchema>;
-  typography?: z.infer<typeof typographySchema>;
-  image?: { alt?: string; width?: string; height?: string; objectFit?: string; placeholder?: boolean };
-  children?: DesignNode[];
+  text?: string | undefined;
+  tag?: string | undefined;
+  layout?: z.infer<typeof layoutSchema> | undefined;
+  style?: z.infer<typeof styleSchema> | undefined;
+  typography?: z.infer<typeof typographySchema> | undefined;
+  image?:
+    | {
+        alt?: string | undefined;
+        width?: string | undefined;
+        height?: string | undefined;
+        objectFit?: string | undefined;
+        placeholder?: boolean | undefined;
+      }
+    | undefined;
+  children?: DesignNode[] | undefined;
 };
+
 
 export const designNodeSchema: z.ZodType<DesignNode> = z.lazy(() =>
   z.object({
